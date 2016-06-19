@@ -16,30 +16,26 @@ gulp.task('sass', function () {
 gulp.task('cssMin', function() {
   gulp.src(['src/css/*.css', '!src/css/*.min.css'])
     .pipe(minCSS())
-    .pipe(gulp.dest('src/css/'));
+    .pipe(gulp.dest('dist/css/'));
 });
 
 gulp.task('uglify', function() {
   gulp.src(['src/js/*js', '!src/js/*.min.js'])
     .pipe(uglify())
-    .pipe(gulp.dest('src/js'))
+    .pipe(gulp.dest('dist/js'))
 });
 
 gulp.task('clean', function() {
   del.sync('dist');
 });
 
-gulp.task('build', function() {
+gulp.task('build', ['clean', 'cssMin', 'uglify'], function() {
   gulp.src('src/index.html')
     .pipe(gulp.dest('dist/'));
-  gulp.src('src/css/main.css')
-    .pipe(gulp.dest('dist/css/'));
   gulp.src('src/fonts/**/*')
     .pipe(gulp.dest('dist/fonts/'));
   gulp.src('src/img/**/*')
     .pipe(gulp.dest('dist/img/'));
-  gulp.src('src/js/main.js')
-    .pipe(gulp.dest('dist/js/'))
 });
 
 gulp.task('watch', ['sass'], function () {
